@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace net_shop_luismiguel_ortiz.Models
+namespace net_shop_luismiguel_ortiz.Models.Database
 {
     using System;
     using System.Data.Entity;

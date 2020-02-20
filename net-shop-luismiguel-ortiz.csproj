@@ -132,25 +132,27 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModeloTienda.Context.cs">
+    <Compile Include="Models\Carrito.cs" />
+    <Compile Include="Models\Blinders\CarritoModelBlinder.cs" />
+    <Compile Include="Models\Database\ModeloTienda.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModeloTienda.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModeloTienda.cs">
+    <Compile Include="Models\Database\ModeloTienda.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModeloTienda.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModeloTienda.Designer.cs">
+    <Compile Include="Models\Database\ModeloTienda.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModeloTienda.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Pedido.cs">
+    <Compile Include="Models\Database\Pedido.cs">
       <DependentUpon>ModeloTienda.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Producto.cs">
+    <Compile Include="Models\Database\Producto.cs">
       <DependentUpon>ModeloTienda.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -164,23 +166,23 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\ModeloTienda.Context.tt">
+    <Content Include="Models\Database\ModeloTienda.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ModeloTienda.Context.cs</LastGenOutput>
       <DependentUpon>ModeloTienda.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\ModeloTienda.tt">
+    <Content Include="Models\Database\ModeloTienda.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModeloTienda.edmx</DependentUpon>
       <LastGenOutput>ModeloTienda.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\ModeloTienda.edmx">
+    <EntityDeploy Include="Models\Database\ModeloTienda.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModeloTienda.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\ModeloTienda.edmx.diagram">
+    <Content Include="Models\Database\ModeloTienda.edmx.diagram">
       <DependentUpon>ModeloTienda.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />

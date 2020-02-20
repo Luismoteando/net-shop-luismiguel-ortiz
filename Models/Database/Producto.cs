@@ -7,23 +7,27 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace net_shop_luismiguel_ortiz.Models
+namespace net_shop_luismiguel_ortiz.Models.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Pedido
+    public partial class Producto
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Pedido()
+        public Producto()
         {
-            this.Productos = new HashSet<Producto>();
+            this.Pedidos = new HashSet<Pedido>();
         }
     
         public int Id { get; set; }
         public string Nombre { get; set; }
+        public double Precio { get; set; }
+        public string Descripcion { get; set; }
+        public string Imagen { get; set; }
+        public Nullable<int> Cantidad { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Producto> Productos { get; set; }
+        public virtual ICollection<Pedido> Pedidos { get; set; }
     }
 }
