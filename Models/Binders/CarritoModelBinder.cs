@@ -8,8 +8,7 @@ namespace net_shop_luismiguel_ortiz.Models
 {
     public class CarritoModelBinder : IModelBinder
     {
-
-        public static string key_carrito = "KEY_123_CARRITO";
+        private static string key_carrito = "KEY_123_CARRITO";
 
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
@@ -18,7 +17,7 @@ namespace net_shop_luismiguel_ortiz.Models
             if (carrito == null)
             {
                 carrito = new Carrito();
-                controllerContext.HttpContext.Session[key_carrito] = new Carrito();
+                controllerContext.HttpContext.Session[key_carrito] = carrito;
             }
 
             return carrito;
