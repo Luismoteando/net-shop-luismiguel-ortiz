@@ -45,13 +45,15 @@ namespace net_shop_luismiguel_ortiz.Controllers
             Pedido pedido = new Pedido();
             pedido.Nombre = "Pedido " + db.Pedidos.Count();
             db.Pedidos.Add(pedido);
-            db.SaveChanges();
 
             if (carrito.Count() == 0) return View("Error");
             foreach (Producto producto in carrito)
             {
                 Producto p = db.Productos.Find(producto.Id);
+                pedido.Productos.Add(p);
+                p.Cantidad--;
             }
+            db.SaveChanges();
             carrito.Clear();
 
             return View("List", carrito);

@@ -8,6 +8,7 @@
 
 <table class="table">
     <tr>
+        <th></th>
         <th>
             @Html.DisplayNameFor(model => model.Nombre)
         </th>
@@ -17,18 +18,15 @@
         <th>
             @Html.DisplayNameFor(model => model.Descripcion)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Imagen)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cantidad)
-        </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
+            <td>
+                <img src="~/Content/imgs/@item.Imagen" width="40px" />
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
@@ -37,12 +35,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Imagen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cantidad)
             </td>
             <td>
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
