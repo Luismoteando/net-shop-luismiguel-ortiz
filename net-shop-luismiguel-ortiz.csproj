@@ -190,7 +190,6 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Carrito.cs" />
     <Compile Include="Models\Binders\CarritoModelBinder.cs" />
-    <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\Database\ModeloTienda.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

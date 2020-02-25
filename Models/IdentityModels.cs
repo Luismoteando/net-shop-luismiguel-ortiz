@@ -21,7 +21,7 @@ namespace net_shop_luismiguel_ortiz.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("ModeloTiendaContainer", throwIfV1Schema: false)
+            : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 

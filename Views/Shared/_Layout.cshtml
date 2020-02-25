@@ -1,16 +1,16 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    <title>@ViewBag.Title | Tienda </title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
     <div class="navbar navbar-expand-md bg-dark navbar-dark">
-        @Html.ActionLink("Nombre de la aplicación", "Index", "Home", null, new { @class = "navbar-brand" })
+        @Html.ActionLink("Tienda", "Index", "Home", null, new { @class = "navbar-brand" })
 
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
@@ -19,22 +19,21 @@
         <div class="navbar-collapse collapse" id="collapsibleNavbar">
             <ul class="nav navbar-nav mr-auto">
                 <li class="nav-item">@Html.ActionLink("Inicio", "Index", "Home", null, new { @class = "nav-link" })</li>
-                <li class="nav-item">@Html.ActionLink("Tienda", "Index", "Productos", null, new { @class = "nav-link" })</li>
-                <li class="nav-item">@Html.ActionLink("Carrito", "List", "Carrito", null, new { @class = "nav-link" })</li>
-                @if (!User.Identity.Name.Equals(""))
+                @if (User.Identity.IsAuthenticated)
                 {
-                    <li class="nav-item">@Html.ActionLink("Acerca de", "About", "Home", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Catálogo", "Index", "Productos", null, new { @class = "nav-link" })</li>
                 }
+                <li class="nav-item">@Html.ActionLink("Acerca de", "About", "Home", null, new { @class = "nav-link" })</li>
                 <li class="nav-item">@Html.ActionLink("Contacto", "Contact", "Home", null, new { @class = "nav-link" })</li>
             </ul>
             @Html.Partial("_LoginPartial")
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container mt-3 body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+            <p>&copy; @DateTime.Now.Year | Tienda</p>
         </footer>
     </div>
 
