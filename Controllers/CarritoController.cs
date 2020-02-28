@@ -42,21 +42,36 @@ namespace net_shop_luismiguel_ortiz.Controllers
         // GET: Carrito/Order
         public ActionResult Order(Carrito carrito)
         {
-            Pedido pedido = new Pedido();
-            pedido.Nombre = "Pedido " + db.Pedidos.Count();
-            db.Pedidos.Add(pedido);
+            Pedido pedido = CreateOrder();
 
             if (carrito.Count() == 0) return View("Error");
             foreach (Producto producto in carrito)
             {
                 Producto p = db.Productos.Find(producto.Id);
+                p.Stock.Cantidad--;
                 pedido.Productos.Add(p);
-                p.Cantidad--;
+                pedido.Factura.Total += p.Precio;
             }
             db.SaveChanges();
             carrito.Clear();
 
             return View("List", carrito);
+        }
+
+        private Pedido CreateOrder()
+        {
+            Factura factura = new Factura();
+            factura.Total = 0;
+            db.Facturas.Add(factura);
+
+            Pedido pedido = new Pedido();
+            pedido.Nombre = "Pedido para " + User.Identity.Name;
+            pedido.Facturas_Id = factura.Id;
+            db.Pedidos.Add(pedido);
+
+            db.SaveChanges();
+
+            return pedido;
         }
     }
 }

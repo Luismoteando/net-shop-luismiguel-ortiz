@@ -4,10 +4,10 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Productos</h2>
+<h2>Catálogo</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Añadir producto", "Create")
 </p>
 <table class="table">
     <tr>
@@ -38,19 +38,20 @@
     <td>
         @Html.DisplayFor(modelItem => item.Descripcion)
     </td>
+    <td></td>
     <td>
-        @if (item.Cantidad < 1)
+        @if (item.Stock.Cantidad < 1)
         {
-            @:Out of stock
+            @:Producto agotado
         }
         else
         {
-            @Html.ActionLink("Add to chart", "Add", "Carrito", new { id = item.Id }, null)
+            @Html.ActionLink("Añadir al carrito", "Add", "Carrito", new { id = item.Id }, null)
         }
         <br />
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Detalles", "Details", new { id = item.Id }) |
+        @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
     </td>
 </tr>
 }

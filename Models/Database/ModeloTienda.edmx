@@ -5,20 +5,28 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="ModeloTienda.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Facturas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Total" Type="float" Nullable="false" />
+        </EntityType>
         <EntityType Name="Pedidos">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Facturas_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ProductoPedido">
           <Key>
-            <PropertyRef Name="Producto_Id" />
-            <PropertyRef Name="Pedido_Id" />
+            <PropertyRef Name="Pedidos_Id" />
+            <PropertyRef Name="Productos_Id" />
           </Key>
-          <Property Name="Producto_Id" Type="int" Nullable="false" />
-          <Property Name="Pedido_Id" Type="int" Nullable="false" />
+          <Property Name="Pedidos_Id" Type="int" Nullable="false" />
+          <Property Name="Productos_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Productos">
           <Key>
@@ -29,9 +37,28 @@
           <Property Name="Precio" Type="float" Nullable="false" />
           <Property Name="Descripcion" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Imagen" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Cantidad" Type="int" />
+          <Property Name="Stocks_Id" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK_ProductoPedido_Pedido">
+        <EntityType Name="Stocks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cantidad" Type="smallint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_PedidoFactura">
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="1" />
+          <End Role="Pedidos" Type="Self.Pedidos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pedidos">
+              <PropertyRef Name="Facturas_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductoPedido_Pedidos">
           <End Role="Pedidos" Type="Self.Pedidos" Multiplicity="1" />
           <End Role="ProductoPedido" Type="Self.ProductoPedido" Multiplicity="*" />
           <ReferentialConstraint>
@@ -39,11 +66,11 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ProductoPedido">
-              <PropertyRef Name="Pedido_Id" />
+              <PropertyRef Name="Pedidos_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ProductoPedido_Producto">
+        <Association Name="FK_ProductoPedido_Productos">
           <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
           <End Role="ProductoPedido" Type="Self.ProductoPedido" Multiplicity="*" />
           <ReferentialConstraint>
@@ -51,21 +78,43 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ProductoPedido">
-              <PropertyRef Name="Producto_Id" />
+              <PropertyRef Name="Productos_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductoStock">
+          <End Role="Stocks" Type="Self.Stocks" Multiplicity="1" />
+          <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stocks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Productos">
+              <PropertyRef Name="Stocks_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ModeloTiendaStoreContainer">
+          <EntitySet Name="Facturas" EntityType="Self.Facturas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pedidos" EntityType="Self.Pedidos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductoPedido" EntityType="Self.ProductoPedido" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_ProductoPedido_Pedido" Association="Self.FK_ProductoPedido_Pedido">
+          <EntitySet Name="Stocks" EntityType="Self.Stocks" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PedidoFactura" Association="Self.FK_PedidoFactura">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="Pedidos" EntitySet="Pedidos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoPedido_Pedidos" Association="Self.FK_ProductoPedido_Pedidos">
             <End Role="Pedidos" EntitySet="Pedidos" />
             <End Role="ProductoPedido" EntitySet="ProductoPedido" />
           </AssociationSet>
-          <AssociationSet Name="FK_ProductoPedido_Producto" Association="Self.FK_ProductoPedido_Producto">
+          <AssociationSet Name="FK_ProductoPedido_Productos" Association="Self.FK_ProductoPedido_Productos">
             <End Role="Productos" EntitySet="Productos" />
             <End Role="ProductoPedido" EntitySet="ProductoPedido" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoStock" Association="Self.FK_ProductoStock">
+            <End Role="Stocks" EntitySet="Stocks" />
+            <End Role="Productos" EntitySet="Productos" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -73,12 +122,22 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ModeloTienda" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Factura">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Total" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Pedidos" Relationship="Self.FK_PedidoFactura" FromRole="Facturas" ToRole="Pedidos" />
+        </EntityType>
         <EntityType Name="Pedido">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Facturas_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Factura" Relationship="Self.FK_PedidoFactura" FromRole="Pedidos" ToRole="Facturas" />
           <NavigationProperty Name="Productos" Relationship="Self.ProductoPedido" FromRole="Pedidos" ToRole="Productos" />
         </EntityType>
         <EntityType Name="Producto">
@@ -90,16 +149,59 @@
           <Property Name="Precio" Type="Double" Nullable="false" />
           <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Imagen" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Cantidad" Type="Int32" />
+          <Property Name="Stocks_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Stock" Relationship="Self.FK_ProductoStock" FromRole="Productos" ToRole="Stocks" />
           <NavigationProperty Name="Pedidos" Relationship="Self.ProductoPedido" FromRole="Productos" ToRole="Pedidos" />
         </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cantidad" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Productos" Relationship="Self.FK_ProductoStock" FromRole="Stocks" ToRole="Productos" />
+        </EntityType>
+        <Association Name="FK_PedidoFactura">
+          <End Role="Facturas" Type="Self.Factura" Multiplicity="1" />
+          <End Role="Pedidos" Type="Self.Pedido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pedidos">
+              <PropertyRef Name="Facturas_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductoStock">
+          <End Role="Stocks" Type="Self.Stock" Multiplicity="1" />
+          <End Role="Productos" Type="Self.Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stocks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Productos">
+              <PropertyRef Name="Stocks_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="ProductoPedido">
           <End Role="Pedidos" Type="Self.Pedido" Multiplicity="*" />
           <End Role="Productos" Type="Self.Producto" Multiplicity="*" />
         </Association>
         <EntityContainer Name="ModeloTiendaContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Facturas" EntityType="Self.Factura" />
           <EntitySet Name="Pedidos" EntityType="Self.Pedido" />
           <EntitySet Name="Productos" EntityType="Self.Producto" />
+          <EntitySet Name="Stocks" EntityType="Self.Stock" />
+          <AssociationSet Name="FK_PedidoFactura" Association="Self.FK_PedidoFactura">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="Pedidos" EntitySet="Pedidos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoStock" Association="Self.FK_ProductoStock">
+            <End Role="Stocks" EntitySet="Stocks" />
+            <End Role="Productos" EntitySet="Productos" />
+          </AssociationSet>
           <AssociationSet Name="ProductoPedido" Association="Self.ProductoPedido">
             <End Role="Pedidos" EntitySet="Pedidos" />
             <End Role="Productos" EntitySet="Productos" />
@@ -111,11 +213,20 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ModeloTiendaStoreContainer" CdmEntityContainer="ModeloTiendaContainer">
+          <EntitySetMapping Name="Facturas">
+            <EntityTypeMapping TypeName="ModeloTienda.Factura">
+              <MappingFragment StoreEntitySet="Facturas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Pedidos">
             <EntityTypeMapping TypeName="ModeloTienda.Pedido">
               <MappingFragment StoreEntitySet="Pedidos">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Facturas_Id" ColumnName="Facturas_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -127,16 +238,24 @@
                 <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Stocks_Id" ColumnName="Stocks_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stocks">
+            <EntityTypeMapping TypeName="ModeloTienda.Stock">
+              <MappingFragment StoreEntitySet="Stocks">
+                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="ProductoPedido" TypeName="ModeloTienda.ProductoPedido" StoreEntitySet="ProductoPedido">
             <EndProperty Name="Pedidos">
-              <ScalarProperty Name="Id" ColumnName="Pedido_Id" />
+              <ScalarProperty Name="Id" ColumnName="Pedidos_Id" />
             </EndProperty>
             <EndProperty Name="Productos">
-              <ScalarProperty Name="Id" ColumnName="Producto_Id" />
+              <ScalarProperty Name="Id" ColumnName="Productos_Id" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

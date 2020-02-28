@@ -1,21 +1,18 @@
-﻿@model IEnumerable<net_shop_luismiguel_ortiz.Models.Database.Pedido>
+﻿@model IEnumerable<net_shop_luismiguel_ortiz.Models.Database.Stock>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Pedidos</h2>
+<h2>Stocks</h2>
 
 <p>
-    @Html.ActionLink("Añadir pedido", "Create")
+    @Html.ActionLink("Añadir stock", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Facturas.Id)
+            @Html.DisplayNameFor(model => model.Cantidad)
         </th>
         <th></th>
     </tr>
@@ -23,10 +20,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Facturas.Id)
+            @Html.DisplayFor(modelItem => item.Cantidad)
         </td>
         <td>
             @Html.ActionLink("Editar", "Edit", new { id=item.Id }) |

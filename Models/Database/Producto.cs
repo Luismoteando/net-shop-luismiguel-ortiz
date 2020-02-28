@@ -11,8 +11,7 @@ namespace net_shop_luismiguel_ortiz.Models.Database
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-
+    
     public partial class Producto
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,15 +21,13 @@ namespace net_shop_luismiguel_ortiz.Models.Database
         }
     
         public int Id { get; set; }
-        [DisplayName("Artículo")]
         public string Nombre { get; set; }
         public double Precio { get; set; }
-        [DisplayName("Descripción")]
         public string Descripcion { get; set; }
         public string Imagen { get; set; }
-        [DisplayName("Stock")]
-        public Nullable<int> Cantidad { get; set; }
+        public int Stocks_Id { get; set; }
     
+        public virtual Stock Stock { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pedido> Pedidos { get; set; }
     }

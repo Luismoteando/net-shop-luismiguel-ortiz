@@ -17,7 +17,8 @@ namespace net_shop_luismiguel_ortiz.Controllers
         // GET: Pedidos
         public ActionResult Index()
         {
-            return View(db.Pedidos.ToList());
+            var pedidos = db.Pedidos.Include(p => p.Factura);
+            return View(pedidos.ToList());
         }
 
         // GET: Pedidos/Details/5
@@ -38,6 +39,7 @@ namespace net_shop_luismiguel_ortiz.Controllers
         // GET: Pedidos/Create
         public ActionResult Create()
         {
+            ViewBag.Id = new SelectList(db.Facturas, "Id", "Id");
             return View();
         }
 
@@ -55,6 +57,7 @@ namespace net_shop_luismiguel_ortiz.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Id = new SelectList(db.Facturas, "Id", "Id", pedido.Id);
             return View(pedido);
         }
 
@@ -70,6 +73,7 @@ namespace net_shop_luismiguel_ortiz.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Id = new SelectList(db.Facturas, "Id", "Id", pedido.Id);
             return View(pedido);
         }
 
@@ -86,6 +90,7 @@ namespace net_shop_luismiguel_ortiz.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Id = new SelectList(db.Facturas, "Id", "Id", pedido.Id);
             return View(pedido);
         }
 

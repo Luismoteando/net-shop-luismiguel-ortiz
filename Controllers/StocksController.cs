@@ -10,115 +10,107 @@ using net_shop_luismiguel_ortiz.Models.Database;
 
 namespace net_shop_luismiguel_ortiz.Controllers
 {
-    public class ProductosController : Controller
+    public class StocksController : Controller
     {
         private ModeloTiendaContainer db = new ModeloTiendaContainer();
 
-        // GET: Productos
+        // GET: Stocks
         public ActionResult Index()
         {
-            var productos = db.Productos.Include(p => p.Stock);
-            return View(productos.ToList());
+            return View(db.Stocks.ToList());
         }
 
-        // GET: Productos/Details/5
+        // GET: Stocks/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Producto producto = db.Productos.Find(id);
-            if (producto == null)
+            Stock stock = db.Stocks.Find(id);
+            if (stock == null)
             {
                 return HttpNotFound();
             }
-            return View(producto);
+            return View(stock);
         }
 
-        // GET: Productos/Create
+        // GET: Stocks/Create
         public ActionResult Create()
         {
-            ViewBag.Stocks_Id = new SelectList(db.Stocks, "Id", "Id");
             return View();
         }
 
-        // POST: Productos/Create
+        // POST: Stocks/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nombre,Precio,Descripcion,Imagen")] Producto producto,
-            [Bind(Include = "Cantidad")] Stock stock)
+        public ActionResult Create([Bind(Include = "Id,Cantidad")] Stock stock)
         {
             if (ModelState.IsValid)
             {
                 db.Stocks.Add(stock);
-                producto.Stocks_Id = stock.Id;
-                db.Productos.Add(producto);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Stocks_Id = new SelectList(db.Stocks, "Id", "Id", producto.Stocks_Id);
-            return View(producto);
+            return View(stock);
         }
 
-        // GET: Productos/Edit/5
+        // GET: Stocks/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Producto producto = db.Productos.Find(id);
-            if (producto == null)
+            Stock stock = db.Stocks.Find(id);
+            if (stock == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Stocks_Id = new SelectList(db.Stocks, "Id", "Id", producto.Stocks_Id);
-            return View(producto);
+            return View(stock);
         }
 
-        // POST: Productos/Edit/5
+        // POST: Stocks/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nombre,Precio,Descripcion,Imagen,Stocks_Id")] Producto producto)
+        public ActionResult Edit([Bind(Include = "Id,Cantidad")] Stock stock)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(producto).State = EntityState.Modified;
+                db.Entry(stock).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Stocks_Id = new SelectList(db.Stocks, "Id", "Id", producto.Stocks_Id);
-            return View(producto);
+            return View(stock);
         }
 
-        // GET: Productos/Delete/5
+        // GET: Stocks/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Producto producto = db.Productos.Find(id);
-            if (producto == null)
+            Stock stock = db.Stocks.Find(id);
+            if (stock == null)
             {
                 return HttpNotFound();
             }
-            return View(producto);
+            return View(stock);
         }
 
-        // POST: Productos/Delete/5
+        // POST: Stocks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Producto producto = db.Productos.Find(id);
-            db.Productos.Remove(producto);
+            Stock stock = db.Stocks.Find(id);
+            db.Stocks.Remove(stock);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

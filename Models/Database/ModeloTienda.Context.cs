@@ -25,7 +25,9 @@ namespace net_shop_luismiguel_ortiz.Models.Database
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Factura> Facturas { get; set; }
         public virtual DbSet<Pedido> Pedidos { get; set; }
         public virtual DbSet<Producto> Productos { get; set; }
+        public virtual DbSet<Stock> Stocks { get; set; }
     }
 }
