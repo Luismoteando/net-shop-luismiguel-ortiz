@@ -38,10 +38,10 @@
     <td>
         @Html.DisplayFor(modelItem => item.Descripcion)
     </td>
-    <td></td>
     <td>
         @if (item.Cantidad < 1)
         {
+            <img src="~/Content/imgs/stock.png" />
             @:Producto agotado
         }
         else
