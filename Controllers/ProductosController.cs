@@ -39,7 +39,6 @@ namespace net_shop_luismiguel_ortiz.Controllers
         // GET: Productos/Create
         public ActionResult Create()
         {
-            ViewBag.Stocks_Id = new SelectList(db.Stocks, "Id", "Id");
             return View();
         }
 
@@ -48,20 +47,38 @@ namespace net_shop_luismiguel_ortiz.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nombre,Precio,Descripcion,Imagen")] Producto producto,
-            [Bind(Include = "Cantidad")] Stock stock)
+        public ActionResult Create([Bind(Include = "Id,Nombre,Precio,Descripcion,Imagen,Cantidad")] Producto producto)
         {
             if (ModelState.IsValid)
             {
-                db.Stocks.Add(stock);
-                producto.Stocks_Id = stock.Id;
                 db.Productos.Add(producto);
+                CheckStock(producto);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.Stocks_Id = new SelectList(db.Stocks, "Id", "Id", producto.Stocks_Id);
             return View(producto);
+        }
+
+        private void CheckStock(Producto producto)
+        {
+            var stock = db.Stocks
+                    .Where(s => s.Producto.Id == producto.Id)
+                    .FirstOrDefault();
+            if (producto.Cantidad < 2)
+            {
+                if (stock == null)
+                {
+                    Stock newStock = new Stock();
+                    newStock.Producto = producto;
+                    db.Stocks.Add(newStock);
+                }
+            }
+            else
+            {
+                if (stock != null)
+                    db.Stocks.Remove(stock);
+            }
+            db.SaveChanges();
         }
 
         // GET: Productos/Edit/5
@@ -76,7 +93,6 @@ namespace net_shop_luismiguel_ortiz.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Stocks_Id = new SelectList(db.Stocks, "Id", "Id", producto.Stocks_Id);
             return View(producto);
         }
 
@@ -85,15 +101,14 @@ namespace net_shop_luismiguel_ortiz.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nombre,Precio,Descripcion,Imagen,Stocks_Id")] Producto producto)
+        public ActionResult Edit([Bind(Include = "Id,Nombre,Precio,Descripcion,Imagen,Cantidad")] Producto producto)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(producto).State = EntityState.Modified;
-                db.SaveChanges();
+                CheckStock(producto);
                 return RedirectToAction("Index");
             }
-            ViewBag.Stocks_Id = new SelectList(db.Stocks, "Id", "Id", producto.Stocks_Id);
             return View(producto);
         }
 

@@ -48,7 +48,8 @@ namespace net_shop_luismiguel_ortiz.Controllers
             foreach (Producto producto in carrito)
             {
                 Producto p = db.Productos.Find(producto.Id);
-                p.Stock.Cantidad--;
+                p.Cantidad--;
+                CheckStock(p);
                 pedido.Productos.Add(p);
                 pedido.Factura.Total += p.Precio;
             }
@@ -66,12 +67,34 @@ namespace net_shop_luismiguel_ortiz.Controllers
 
             Pedido pedido = new Pedido();
             pedido.Nombre = "Pedido para " + User.Identity.Name;
-            pedido.Facturas_Id = factura.Id;
+            pedido.Factura = factura;
             db.Pedidos.Add(pedido);
 
             db.SaveChanges();
 
             return pedido;
+        }
+
+        private void CheckStock(Producto producto)
+        {
+            var stock = db.Stocks
+                    .Where(s => s.Producto.Id == producto.Id)
+                    .FirstOrDefault();
+            if (producto.Cantidad < 2)
+            {
+                if (stock == null)
+                {
+                    Stock newStock = new Stock();
+                    newStock.Producto = producto;
+                    db.Stocks.Add(newStock);
+                }
+            }
+            else
+            {
+                if (stock != null)
+                    db.Stocks.Remove(stock);
+            }
+            db.SaveChanges();
         }
     }
 }

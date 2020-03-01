@@ -25,10 +25,10 @@ namespace net_shop_luismiguel_ortiz.Models.Database
         public double Precio { get; set; }
         public string Descripcion { get; set; }
         public string Imagen { get; set; }
-        public int Stocks_Id { get; set; }
+        public short Cantidad { get; set; }
     
-        public virtual Stock Stock { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pedido> Pedidos { get; set; }
+        public virtual Stock Stock { get; set; }
     }
 }

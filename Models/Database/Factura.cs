@@ -14,16 +14,9 @@ namespace net_shop_luismiguel_ortiz.Models.Database
     
     public partial class Factura
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Factura()
-        {
-            this.Pedidos = new HashSet<Pedido>();
-        }
-    
         public int Id { get; set; }
         public double Total { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Pedido> Pedidos { get; set; }
+        public virtual Pedido Pedido { get; set; }
     }
 }

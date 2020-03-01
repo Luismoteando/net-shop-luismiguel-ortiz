@@ -14,16 +14,8 @@ namespace net_shop_luismiguel_ortiz.Models.Database
     
     public partial class Stock
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Stock()
-        {
-            this.Productos = new HashSet<Producto>();
-        }
-    
         public int Id { get; set; }
-        public short Cantidad { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Producto> Productos { get; set; }
+        public virtual Producto Producto { get; set; }
     }
 }

@@ -39,7 +39,7 @@ namespace net_shop_luismiguel_ortiz.Controllers
         // GET: Pedidos/Create
         public ActionResult Create()
         {
-            ViewBag.Id = new SelectList(db.Facturas, "Id", "Id");
+            ViewBag.Facturas_Id = new SelectList(db.Facturas, "Id", "Id");
             return View();
         }
 
@@ -56,8 +56,6 @@ namespace net_shop_luismiguel_ortiz.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.Id = new SelectList(db.Facturas, "Id", "Id", pedido.Id);
             return View(pedido);
         }
 
@@ -73,7 +71,6 @@ namespace net_shop_luismiguel_ortiz.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Id = new SelectList(db.Facturas, "Id", "Id", pedido.Id);
             return View(pedido);
         }
 
@@ -90,7 +87,6 @@ namespace net_shop_luismiguel_ortiz.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id = new SelectList(db.Facturas, "Id", "Id", pedido.Id);
             return View(pedido);
         }
 
