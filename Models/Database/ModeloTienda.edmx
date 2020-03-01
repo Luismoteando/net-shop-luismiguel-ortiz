@@ -34,6 +34,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Total" Type="float" Nullable="false" />
+    <Property Name="Cliente" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Pedido_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Pedidos">
@@ -128,6 +129,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Total" Type="Double" Nullable="false" />
           <NavigationProperty Name="Pedido" Relationship="ModeloTienda.PedidoFactura" FromRole="Factura" ToRole="Pedido" />
+          <Property Name="Cliente" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="Pedido">
           <Key>
@@ -199,6 +201,7 @@
         <MappingFragment StoreEntitySet="Facturas">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="Cliente" ColumnName="Cliente" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -16,6 +16,7 @@ namespace net_shop_luismiguel_ortiz.Models.Database
     {
         public int Id { get; set; }
         public double Total { get; set; }
+        public string Cliente { get; set; }
     
         public virtual Pedido Pedido { get; set; }
     }

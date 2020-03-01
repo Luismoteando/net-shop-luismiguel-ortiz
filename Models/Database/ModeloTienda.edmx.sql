@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/01/2020 21:00:54
+-- Date Created: 03/01/2020 22:30:15
 -- Generated from EDMX file: C:\Users\70358726\Source\Repos\net-shop-luismiguel-ortiz\Models\Database\ModeloTienda.edmx
 -- --------------------------------------------------
 
@@ -17,17 +17,17 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_PedidoFactura]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Pedidos] DROP CONSTRAINT [FK_PedidoFactura];
-GO
 IF OBJECT_ID(N'[dbo].[FK_ProductoPedido_Pedidos]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ProductoPedido] DROP CONSTRAINT [FK_ProductoPedido_Pedidos];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ProductoPedido_Productos]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ProductoPedido] DROP CONSTRAINT [FK_ProductoPedido_Productos];
 GO
-IF OBJECT_ID(N'[dbo].[FK_ProductoStock]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Productos] DROP CONSTRAINT [FK_ProductoStock];
+IF OBJECT_ID(N'[dbo].[FK_PedidoFactura]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Facturas] DROP CONSTRAINT [FK_PedidoFactura];
+GO
+IF OBJECT_ID(N'[dbo].[FK_StockProducto]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Stocks] DROP CONSTRAINT [FK_StockProducto];
 GO
 
 -- --------------------------------------------------
@@ -40,14 +40,14 @@ GO
 IF OBJECT_ID(N'[dbo].[Pedidos]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Pedidos];
 GO
-IF OBJECT_ID(N'[dbo].[ProductoPedido]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ProductoPedido];
-GO
 IF OBJECT_ID(N'[dbo].[Productos]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Productos];
 GO
 IF OBJECT_ID(N'[dbo].[Stocks]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Stocks];
+GO
+IF OBJECT_ID(N'[dbo].[ProductoPedido]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProductoPedido];
 GO
 
 -- --------------------------------------------------
@@ -58,6 +58,7 @@ GO
 CREATE TABLE [dbo].[Facturas] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Total] float  NOT NULL,
+    [Cliente] nvarchar(max)  NOT NULL,
     [Pedido_Id] int  NOT NULL
 );
 GO

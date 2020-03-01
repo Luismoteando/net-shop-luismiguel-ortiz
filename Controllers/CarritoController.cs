@@ -63,6 +63,7 @@ namespace net_shop_luismiguel_ortiz.Controllers
         {
             Factura factura = new Factura();
             factura.Total = 0;
+            factura.Cliente = User.Identity.Name;
             db.Facturas.Add(factura);
 
             Pedido pedido = new Pedido();
